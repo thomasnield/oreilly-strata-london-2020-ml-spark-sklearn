@@ -1,3 +1,8 @@
+"""
+Some notes on dealing with image size and variance:
+https://stackoverflow.com/questions/41907598/how-to-format-the-image-data-for-training-prediction-when-images-are-different-i
+"""
+
 import pandas as pd
 from sklearn.ensemble import ExtraTreesClassifier
 
