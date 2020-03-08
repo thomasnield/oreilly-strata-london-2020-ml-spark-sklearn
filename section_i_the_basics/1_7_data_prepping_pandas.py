@@ -1,5 +1,4 @@
-import sqlite3
-
+import numpy as np
 import pandas as pd
 
 df = pd.read_csv('../data/wildlife-strikes.csv')
@@ -8,7 +7,7 @@ df = pd.read_csv('../data/wildlife-strikes.csv')
 pd.set_option('display.max_rows', None)
 pd.set_option('display.width', None)
 
-# Get rid of records where year is greater than or equal to 2010
+# Keep only records where year is greater than or equal to 2010
 df = df[df["Incident Year"] >= 2010]
 
 # Merge Incident Year, Incident Month, Incident Day columns into "incident_date" column
@@ -19,7 +18,15 @@ df = df.drop(columns= ["Incident Year", "Incident Month", "Incident Day"], axis=
 renames = { str(c) : str(c).lower().replace(" ", "_") for c in df.columns}
 df.rename(renames, axis=1, inplace=True)
 
+# Transpose the table
 print(df.transpose())
+
+# Get incident count by flight phase
+print(df.pivot_table(index=["flight_phase"], values=["aircraft_damage"], aggfunc="sum").transpose())
+
+# Get incident count by aircraft
+print(df.pivot_table(index=["aircraft"], values=["aircraft_damage"], aggfunc="sum"))
+
 
 # Write to SQLite database
 # conn = sqlite3.connect('../data/data_prep.db')
